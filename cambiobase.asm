@@ -8,6 +8,7 @@ segment codigo code
          call  abrir
 ciclo:    
          call  leer
+;         call  validar
          call  procesar
          call  imprimir
          jmp   ciclo
@@ -28,6 +29,17 @@ leer:
          jc    errLect
          cmp   ax,0
          je    cerrar
+         ret
+validar:
+         mov   si,0
+valOtro:
+         cmp   byte[registro+si],99h
+         jg    errInval
+         inc   si
+         cmp   si,3
+         jl    valOtro
+         cmp   byte[registro+si],0Ah
+         jl    errInval
          ret
 procesar:
          call  cargar
@@ -106,6 +118,11 @@ imprimir:
          mov   ah,9
          int   21h
          ret
+errInval:
+         mov   dx,msjErrInval
+         mov   ah,9
+         int   21h
+         jmp   fin
 errAbrir:
          mov   dx,msjErrAbrir
          mov   ah,9
@@ -152,6 +169,7 @@ numero         resb 7
 msjErrAbrir    db  "Error en apertura$"
 msjErrLeer     db  "Error en lectura$"
 msjErrCerrar   db  "Error en cierre$"
+msjErrInval    db  "Registro invalido$"
 msjBienvenida  db  "                   ___  ___     ___  ___ ",0x0a
                db  "                  |_  ||  _|   |   ||_  |",0x0a
                db  "                    | ||_  | _ | | ||_  |",0x0a
