@@ -4,7 +4,7 @@ segment codigo code
          mov   ds,ax
          mov   ax,pila
          mov   ss,ax
-;         call  prtBienv
+         call  prtBienv
          call  abrir
 ciclo:    
          call  leer
@@ -234,33 +234,33 @@ segment datos data
 fileName       db  "arch.dat",0
 fHandle        resw 1
 registro       resb 4
-               db  ' $'
 
 linea          resb 0
 empaquetado    resb 8
-               db   ' -- a Octal-->> '
+               db   ' ---->> '
 lineaB8        resb 11
-               db   '    Num : '
+               db   '        Num : '
 signo          resb 1
 numero         resb 7
-               db   ' -- a Octal-->> '
+               db   ' ---->> '
 octal          resb 8
-               db   0x0a,'$'
+               db   0x0a,"$"
 resultado      resb 4
-               db   '$'
 diez           dd   10
 
 msjErrAbrir    db  "Error en apertura$"
 msjErrLeer     db  "Error en lectura$"
 msjErrCerrar   db  "Error en cierre$"
 msjErrInval    db  "Registro invalido$"
-msjBienvenida  db  "                   ___  ___     ___  ___ ",0x0a
-               db  "                  |_  ||  _|   |   ||_  |",0x0a
-               db  "                    | ||_  | _ | | ||_  |",0x0a
-               db  "                    |_||___||_||___||___|",0x0a
-               db  "  _____         _         _     ____          _           _ ",0x0a
-               db  " |  _  |___ ___| |_ ___ _| |   |    \ ___ ___|_|_____ ___| |",0x0a
-               db  " |   __| .'|  _| '_| -_| . |   |  |  | -_|  _| |     | .'| |",0x0a
-               db  " |__|  |__,|___|_,_|___|___|   |____/|___|___|_|_|_|_|__,|_|",0x0a,"$"
+msjBienvenida  db  "                    ___  ___     ___  ___ ",0x0a
+               db  "                   |_  ||  _|   |   ||_  |",0x0a
+               db  "                     | ||_  | _ | | ||_  |",0x0a
+               db  "                     |_||___||_||___||___|",0x0a
+               db  "   _____         _         _     ____          _           _ ",0x0a
+               db  "  |  _  |___ ___| |_ ___ _| |   |    \ ___ ___|_|_____ ___| |",0x0a
+               db  "  |   __| .'|  _| '_| -_| . |   |  |  | -_|  _| |     | .'| |",0x0a
+               db  "  |__|  |__,|___|_,_|___|___|   |____/|___|___|_|_|_|_|__,|_|",0x0a
+               db  "  ",0x0a
+               db  "Empaquetado |  Octal c/formato  |  Num sin Formato   |  Octal s/formato",0x0a,"$"
 
 segment pila stack
