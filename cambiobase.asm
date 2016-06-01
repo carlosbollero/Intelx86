@@ -59,7 +59,7 @@ procesar:
          call  cargar
          call  aOctal
          call  empaqABin
-         call  numAOctal
+         call  binAOctal
          ret
 
 cargar:
@@ -78,7 +78,7 @@ aCaract:
          shl   al,4
          shr   al,4
          add   al,37h
-         mov   [linea+7],al
+         mov   [empaquetado+7],al
          shr   edx,4
          mov   si,6
 aCarOtro:
@@ -86,7 +86,7 @@ aCarOtro:
          shl   al,4
          shr   al,4
          add   al,30h
-         mov   [linea+si],al
+         mov   [empaquetado+si],al
          dec   si
          shr   edx,4
          cmp   si,0
@@ -96,16 +96,16 @@ aCarOtro:
          mov   di,numero
          mov   cl,7
 movOtro:
-         mov   dl,[linea+si]
+         mov   dl,[empaquetado+si]
          mov   byte[di],dl
          inc   di
          inc   si
          dec   cl
          cmp   cl,0
          jg    movOtro
-         cmp   byte[linea+7],42h
+         cmp   byte[empaquetado+7],42h
          je    esNeg
-         cmp   byte[linea+7],44h
+         cmp   byte[empaquetado+7],44h
          je    esNeg
          mov   byte[signo],2bh
          jmp   finACar
@@ -129,9 +129,8 @@ aOcOtro:
          ret
 
 empaqABin:
-
          mov   cx,0
-         mov   dword[resultado],0
+         mov   dword[numBin],0
          mov   eax,0
          call  cargar
          shr   edx,4
@@ -139,7 +138,7 @@ empaqABin:
          mov   bl,dl
          shl   bl,4
          shr   bl,4
-         add   dword[resultado],ebx
+         add   dword[numBin],ebx
 siguiente:
          mov   ebx,0
          shr   edx,4
@@ -160,7 +159,7 @@ salto:
          push  edx
          mul   ebx
          pop   edx
-         add   dword[resultado],eax
+         add   dword[numBin],eax
          pop   cx
          inc   cx
          cmp   cx,6
@@ -168,7 +167,7 @@ salto:
 finABin:
          ret
 
-numAOctal:
+binAOctal:
          mov   si,0
          mov   cx,8
 blanquear:
@@ -177,7 +176,7 @@ blanquear:
          mov   ebx,[octal]
          mov   ecx,[octal+4]
          mov   edx,0
-         mov   edx,[resultado]
+         mov   edx,[numBin]
          mov   si,7
 numOcOtro:
          mov   eax,edx
@@ -189,6 +188,8 @@ numOcOtro:
          shr   edx,3
          cmp   si,0
          jnl   numOcOtro
+         mov   dl,byte[signo]
+         mov   byte[signoOct],dl
          ret
 
 imprimir:
@@ -243,9 +244,10 @@ lineaB8        resb 11
 signo          resb 1
 numero         resb 7
                db   ' ---->> '
+signoOct       resb 1
 octal          resb 8
                db   0x0a,"$"
-resultado      resb 4
+numBin      resb 4
 diez           dd   10
 
 msjErrAbrir    db  "Error en apertura$"
