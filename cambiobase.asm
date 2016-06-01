@@ -200,7 +200,7 @@ errInval:
          mov   dx,msjErrInval
          mov   ah,9
          int   21h
-         jmp   fin
+         jmp   ciclo
 errAbrir:
          mov   dx,msjErrAbrir
          mov   ah,9
